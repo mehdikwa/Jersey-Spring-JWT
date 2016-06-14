@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+	<New id="dataSource" class="org.eclipse.jetty.plus.jndi.Resource">
+		<Arg></Arg>
+		<Arg>jdbc/VkAuthenticationDB</Arg>
+		<Arg>
+			<New class="oracle.jdbc.pool.OracleDataSource">
+				<Set name="DriverType">thin</Set>
+				<Set name="URL">jdbc:oracle:thin:@server01:1521:mydb</Set>
+				<Set name="User">test</Set>
+				<Set name="Password">test</Set>
+				<Set name="connectionCachingEnabled">true</Set>
+				<Set name="connectionCacheProperties">
+					<New class="java.util.Properties">
+						<Call name="setProperty">
+							<Arg>MinLimit</Arg>
+							<Arg>5</Arg>
+						</Call>
+						<!-- put the other properties in here too -->
+					</New>
+				</Set>
+			</New>
+		</Arg>
+	</New>
+</Configure>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd
+	http://www.springframework.org/schema/data/jpa 
+	http://www.springframework.org/schema/data/jpa/spring-jpa.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<context:property-placeholder
+		location="file:/${CONF_LOCATION}/authentication.properties" />
+		
+	<context:annotation-config />
+	<!-- For defining Spring Bean -->
+	<context:component-scan base-package="com.auth.rest.api.dao, com.auth.rest.api.service" />
+	
+	<!-- For bootstrapping the Spring Repository -->
+	<jpa:repositories
+		base-package="com.auth.rest.api.dao"
+		entity-manager-factory-ref="entityManagerFactory"
+		transaction-manager-ref="transactionManager" />
+	
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/VkAuthenticationDB" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="jpaDialect" ref="jpaDialect" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="jpaProperties">
+		 <props>
+            <prop key="hibernate.cache.use_second_level_cache">true</prop>
+            <prop key="hibernate.cache.use_query_cache">true</prop>
+            <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+            <prop key="javax.persistence.sharedCache.mode">ENABLE_SELECTIVE</prop>
+        </props>
+		</property>		
+		<property name="packagesToScan">
+			<array>
+				<value>com.auth.rest.api.entity</value>
+			</array>
+		</property>
+		<property name="persistenceUnitName" value="persistence-unit-VkAuthentication" />
+	</bean>
+
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="generateDdl" value="false" />
+		<property name="databasePlatform" value="${vkauthentication.database.dialect}" />
+		<property name="showSql" value="${vkauthentication.database.showsql:false}" />
+	</bean>
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="managementService" class="net.sf.ehcache.management.ManagementService"
+		init-method="init" destroy-method="dispose">
+		<constructor-arg ref="ehcacheManagerFactory" />
+		<constructor-arg ref="mbeanServer" />
+		<constructor-arg index="2" value="true" />
+		<constructor-arg index="3" value="true" />
+		<constructor-arg index="4" value="true" />
+		<constructor-arg index="5" value="true" />
+	</bean>
+
+	<bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+		<property name="locateExistingServerIfPossible" value="true" />
+	</bean>
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehcacheManagerFactory" />
+	</bean>
+
+	<bean id="ehcacheManagerFactory"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+		<property name="shared" value="true" />
+	</bean>	
+	
+		<bean id="dataSourceVkAuthentication" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/VkAuthenticationDB" />
+	</bean>
+	
+<!-- 	<bean id="liquibaseSchema" class="liquibase.integration.spring.SpringLiquibase">
+		<property name="dataSource" ref="dataSourceVkAuthentication" />
+		<property name="changeLog"
+			value="classpath:/fr//vkauthentication/db.changelog-master.xml" />
+	</bean> -->
+</beans>

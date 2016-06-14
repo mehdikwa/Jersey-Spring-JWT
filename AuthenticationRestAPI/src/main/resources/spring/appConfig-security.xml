@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+    	http://www.springframework.org/schema/beans 
+    	http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security 
+        http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	
+	<security:global-method-security  pre-post-annotations="enabled"/>
+
+	<security:http 
+		auto-config="false"
+		use-expressions="true"
+		create-session="stateless"
+		entry-point-ref="jwtAuthenticationEntryPoint"
+		authentication-manager-ref="authenticationManager">
+		
+		<security:csrf disabled="true" />
+		<security:custom-filter ref="jwtAuthenticationTokenFilter" before="PRE_AUTH_FILTER"/>
+		<security:headers>
+			<security:cache-control disabled="true"/>
+		</security:headers>
+		
+		<!-- AuthenticationActivity Resource -->
+		<security:intercept-url pattern="/login/signup" method="POST" access="permitAll"/>
+		<security:intercept-url pattern="/login/referesh" method="GET" access="permitAll"/>
+		
+		<!-- User Resource -->
+		<security:intercept-url pattern="/users" method="POST" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/users/{id}" method="GET" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/users" method="GET" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/users/{id}" method="PUT" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/users/{id}" method="DELETE" access="hasRole('ROLE_ADMIN')"/>
+		
+		<!-- Password Policy -->
+		<security:intercept-url pattern="/policies" method="POST" access="denyAll"/>
+		<security:intercept-url pattern="/policies/{id}" method="GET" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/policies" method="GET" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/policies/{id}" method="PUT" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/policies/{id}" method="DELETE" access="denyAll"/>
+
+	</security:http>
+
+	<!-- Initializing Context -->
+
+	<bean id="contextSource"
+	        class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
+	  <constructor-arg value="${vkauthentication.ldap.server.url}:${vkauthentication.ldap.server.port}/${vkauthentication.ldap.root}"/>
+	  <property name="userDn" value="${vkauthentication.ldap.server.user}"/>
+	  <property name="password" value="${vkauthentication.ldap.server.password}"/>
+	</bean>
+
+	
+	<bean id="ldapUserSearch"
+		class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+		<constructor-arg index="0" value="${vkauthentication.ldap.user.search.base}" /> <!-- Branche principale à partir de laquelle faire la recherche -->
+		<constructor-arg index="1" value="${vkauthentication.ldap.user.search.filter}" /> <!-- Critère de recherche LDAP, ici le login de l'utilisateur correspond 
+			à l'uid de l'entrée LDAP -->
+		<constructor-arg index="2" ref="contextSource" />
+		<property name="searchSubtree" value="true" /> <!-- Recherche dans les sous-branches -->
+	</bean>
+	
+
+	<!-- Ldap assembling bean -->
+	<bean id="ldapAuthProvider"
+		class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+		<constructor-arg>
+			<bean
+				class="org.springframework.security.ldap.authentication.BindAuthenticator">
+				<constructor-arg ref="contextSource" />
+				<property name="userSearch" ref="ldapUserSearch"/>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1" ref="customLdapAuthoritiesPopulator"/>
+	</bean>
+
+	<bean id="daoAuthProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="jdbcUserDetailsService" />
+		<property name="passwordEncoder" ref="passwordEncoder"/>
+	</bean>
+	
+	<!-- Password Encoder -->
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<constructor-arg name="strength" value="11" />
+	</bean>
+
+	<security:authentication-manager id="authenticationManager">
+		<security:authentication-provider
+			ref="customAuthenticationProvider">
+		</security:authentication-provider>
+	</security:authentication-manager>
+</beans>

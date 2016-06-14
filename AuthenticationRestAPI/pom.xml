@@ -1,0 +1,240 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.auth.rest.tools</groupId>
+		<artifactId>AuthenticationAPI</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>AuthenticationRestAPI</artifactId>
+	<packaging>war</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>com.auth.rest.tools</groupId>
+			<artifactId>AuthenticationCore</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.auth.rest.tools</groupId>
+			<artifactId>AuthenticationBOM</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.auth.rest.tools</groupId>
+			<artifactId>AuthenticationDAL</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Jersey -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.19.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>1.19.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.19.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>1.19.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>1.19.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-spring</artifactId>
+			<version>1.17.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-aop</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.glassfish.jersey.media</groupId> <artifactId>jersey-media-moxy</artifactId> 
+			<version>${jersey.version}</version> </dependency> <dependency> <groupId>org.glassfish.jersey.ext</groupId> 
+			<artifactId>jersey-bean-validation</artifactId> <version>${jersey.version}</version> 
+			</dependency> -->
+		<dependency>
+			<artifactId>hibernate-ehcache</artifactId>
+			<groupId>org.hibernate</groupId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.maven.plugin.version}</version>
+				<configuration>
+					<jettyXml>${project.basedir}/src/main/resources/config/jetty9.xml</jettyXml>
+					<!-- ,${project.basedir}/src/main/resources/config/jetty-ssl.xml, ${project.basedir}/src/main/resources/config/jetty-https.xml -->
+					<stopKey>STOP</stopKey>
+					<stopPort>9999</stopPort>
+					<stopWait>5</stopWait>
+					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<scanTargets>
+						<scanTarget>${project.basedir}/src/main</scanTarget>
+						<scanTarget>${project.basedir}/src/test</scanTarget>
+					</scanTargets>
+					<contextXml>${project.basedir}/src/test/resources/jetty-context.xml</contextXml>
+
+					<webAppConfig>
+						<contextPath>/</contextPath>
+					</webAppConfig>
+					<systemProperties>
+						<systemProperty>
+							<name>CONF_LOCATION</name>
+							<value>${project.basedir}/src/main/resources/</value>
+						</systemProperty>
+						<systemProperty>
+							<name>logback.configurationFile</name>
+							<value>${project.basedir}/src/main/resources/logback.xml</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+						<version>1.6.4</version>
+					</dependency>
+					<dependency>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+						<version>1.0.0</version>
+					</dependency>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.27</version>
+					</dependency>
+					<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc14</artifactId> 
+						<version>10.2.0.4.0</version> </dependency> -->
+					<dependency>
+						<groupId>com.oracle</groupId>
+						<artifactId>ojdbc6</artifactId>
+						<version>${ojdbc.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+						<version>2.3.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/manager/text</url>
+					<server>deploytomcat</server>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

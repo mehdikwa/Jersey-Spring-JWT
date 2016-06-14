@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+	updateCheck="false" monitoring="autodetect" dynamicConfig="true" name="vk-connect">
+
+	<!-- | Please see http://ehcache.sourceforge.net/documentation/configuration.html 
+		for | detailed information on how to configurigure caches in this file + -->
+	<!-- Location of persistent caches on disk -->
+	<diskStore path="java.io.tmpdir/EhCacheScServices" />
+
+	<defaultCache eternal="false" maxElementsInMemory="1000"
+		overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU" />
+		
+	<cache name="CONNECT"
+		eternal="false" maxElementsInMemory="10000" overflowToDisk="false"
+		diskPersistent="false" timeToLiveSeconds="86400"
+		memoryStoreEvictionPolicy="LRU" />		
+
+	<cache name="CONNECT_ENTITY"
+		eternal="false" maxElementsInMemory="10000" overflowToDisk="false"
+		diskPersistent="false" timeToLiveSeconds="86400"
+		memoryStoreEvictionPolicy="LRU" />	
+			
+	<cache name="CONNECT_COLLECTION_ENTITY"
+		eternal="false" maxElementsInMemory="20000" overflowToDisk="false"
+		diskPersistent="false" timeToLiveSeconds="86400"
+		memoryStoreEvictionPolicy="LRU" />	
+		
+</ehcache>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%class{0}.%method:%line] %logger{36} - %message%n%xException" />
+	
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				${PATTERN}
+			</Pattern>
+		</layout>
+		
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter"> 
+            <level>info</level>
+        </filter>
+	</appender>
+	
+	<root level="debug">
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>

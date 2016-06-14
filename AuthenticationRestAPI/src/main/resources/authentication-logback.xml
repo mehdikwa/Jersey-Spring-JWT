@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+	<!-- A PARAMETRER -->
+	<property name="APPLICATION_NAME" value="authentication" />
+
+	<!-- VALEURS PAR DEFAUT -->
+	<property name="PATH_LOG" value="/var/log/vkauthentication" />
+	<property name="PATH_ARCHIVED" value="/var/log/vkauthentication/archived" />
+
+	<property name="FILE_OUTPUT" value="${PATH_LOG}/${APPLICATION_NAME}.log" />
+	<property name="FILE_OUTPUT_ARCHIVE"
+		value="${PATH_ARCHIVED}/${APPLICATION_NAME}.%d{yyyy-MM-dd}.%i.log" />
+	<property name="FILE_OUTPUT_ERROR" value="${PATH_LOG}/${APPLICATION_NAME}-error.log" />
+	<property name="FILE_OUTPUT_ERROR_ARCHIVE"
+		value="${PATH_ARCHIVED}/${APPLICATION_NAME}-error.%d{yyyy-MM-dd}.%i.log" />
+
+	<property name="PATTERN"
+		value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%class{0}.%method:%line] %logger{36} - %message%n%xException" />
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				${PATTERN}
+			</Pattern>
+		</layout>
+
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${FILE_OUTPUT}</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				${PATTERN}
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${FILE_OUTPUT_ARCHIVE}</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+
+	</appender>
+
+	<appender name="FILE-ERROR"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${FILE_OUTPUT_ERROR}</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				${PATTERN}
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${FILE_OUTPUT_ERROR_ARCHIVE}</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level><!-- include warn and error -->
+		</filter>
+
+	</appender>
+
+	<!-- <logger name="fr.impnat" level="info" additivity="false"> <appender-ref 
+		ref="STDOUT" /> <appender-ref ref="FILE" /> <appender-ref ref="FILE-ERROR" 
+		/> </logger> -->
+	<logger name="org.hibernate.type" level="ALL" />
+	<logger name="org.hibernate" level="DEBUG" />
+	
+	<logger name="org.hibernate.SQL" level="DEBUG" />
+	<root level="DEBUG">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="FILE-ERROR" />
+	</root>
+</included>

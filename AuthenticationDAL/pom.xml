@@ -1,0 +1,183 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.auth.rest.tools</groupId>
+		<artifactId>Authentication</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>AuthenticationDAL</artifactId>
+	<dependencies>
+
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<!-- ******* JPA/Hibernate ******** -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<artifactId>hibernate-ehcache</artifactId>
+			<groupId>org.hibernate</groupId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-context</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+
+		<!-- AOP / Aspects -->
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- Logging -->
+		<!-- SLF4J -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
