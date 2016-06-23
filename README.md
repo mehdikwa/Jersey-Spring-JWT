@@ -17,3 +17,8 @@ Import the file in SOAPUI.zip into SOAPUI
 
 ### Execute load test
 Import the TestPlan.jmx file in resource folder into JMeter
+
+### TODO
+* Adding Swagger documentation
+* Unit testing
+* Fix some Jersey exceptions on Jetty server
