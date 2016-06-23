@@ -9,11 +9,11 @@ Spring security for rest API with JWT Token
 * On module AuthenticationRestAPI do an **mvn clean install  jetty:run -Djetty.port=8888**
 
 ## Pre-requisits
-* Install an Apache directory and import the ldif file in resource folder
-* Execute DB Schema installation script in resource folder (Adapat the script to the DB you'll be using) 
+* Install an Apache directory and import the ldap.ldif file found in resource folder
+* Execute DB Schema installation script export.sql found in resource folder (Adapat the script to the DB you'll be using) 
 
 ### Execute integration test via SOAPUI
 Import the file in SOAPUI.zip into SOAPUI
 
 ### Execute load test
-Import the jmx file in resource folder into JMeter
+Import the TestPlan.jmx file in resource folder into JMeter
