@@ -20,22 +20,20 @@
 	http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 	<context:property-placeholder
-		location="classpath*:vkauthentication-test.properties" />
+		location="classpath*:authentication-test.properties" />
 
+	
 	<context:annotation-config />
 	<!-- For bootstrapping the Spring Repository -->
-	<jpa:repositories
-		base-package="fr..vkauthentication.dao" />
 
 	<!-- For defining Spring Bean -->
-	<context:component-scan base-package="fr..vkauthentication.dao, fr..vkauthentication.service" />
 	<cache:annotation-driven />
-	<bean id="dataSourceVkAuthentication"
+	<bean id="dataSourceAuthentication"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${DATABASE_VK_AUTHENTICATION_TEST_JDBC_DRIVER}" />
-		<property name="url" value="${DATABASE_VK_AUTHENTICATION_TEST_JDBC_URL}" />
-		<property name="username" value="${DATABASE_VK_AUTHENTICATION_TEST_JDBC_USER}" />
-		<property name="password" value="${DATABASE_VK_AUTHENTICATION_TEST_JDBC_PASSWORD}" />
+		<property name="driverClassName" value="${DATABASE_AUTHENTICATION_TEST_JDBC_DRIVER}" />
+		<property name="url" value="${DATABASE_AUTHENTICATION_TEST_JDBC_URL}" />
+		<property name="username" value="${DATABASE_AUTHENTICATION_TEST_JDBC_USER}" />
+		<property name="password" value="${DATABASE_AUTHENTICATION_TEST_JDBC_PASSWORD}" />
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -45,7 +43,7 @@
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSourceVkAuthentication" />
+		<property name="dataSource" ref="dataSourceAuthentication" />
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
  		<property name="jpaProperties">
 		 <props>
@@ -57,10 +55,10 @@
        </property>		
 		<property name="packagesToScan">
 			<array>
-				<value>fr..vkauthentication.entity</value>
+				<value>fr.vkauthentication.entity</value>
 			</array>
 		</property>
-		<property name="persistenceUnitName" value="persistence-unit-VkAuthentication" />
+		<property name="persistenceUnitName" value="persistence-unit-Authentication" />
 	</bean>
 
 	<bean id="jpaVendorAdapter"

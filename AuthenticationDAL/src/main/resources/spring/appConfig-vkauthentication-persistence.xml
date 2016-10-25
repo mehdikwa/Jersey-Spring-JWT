@@ -95,12 +95,12 @@
 		<property name="shared" value="true" />
 	</bean>	
 	
-		<bean id="dataSourceVkAuthentication" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<bean id="dataSourceAuthentication" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/VkAuthenticationDB" />
 	</bean>
 	
 <!-- 	<bean id="liquibaseSchema" class="liquibase.integration.spring.SpringLiquibase">
-		<property name="dataSource" ref="dataSourceVkAuthentication" />
+		<property name="dataSource" ref="dataSourceAuthentication" />
 		<property name="changeLog"
 			value="classpath:/fr//vkauthentication/db.changelog-master.xml" />
 	</bean> -->
