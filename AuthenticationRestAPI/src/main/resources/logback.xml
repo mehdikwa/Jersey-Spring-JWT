@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
-	<include file="/${CONF_LOCATION}/vkauthentication-logback.xml" />
+	<include file="/${CONF_LOCATION}/authentication-logback.xml" />
 </configuration>

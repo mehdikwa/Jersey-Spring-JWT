@@ -4,22 +4,14 @@
 		<Arg></Arg>
 		<Arg>jdbc/VkAuthenticationDB</Arg>
 		<Arg>
-			<New class="oracle.jdbc.pool.OracleDataSource">
-				<Set name="DriverType">thin</Set>
-				<Set name="URL">jdbc:oracle:thin:@server01:1521:mydb</Set>
-				<Set name="User">test</Set>
-				<Set name="Password">test</Set>
-				<Set name="connectionCachingEnabled">true</Set>
-				<Set name="connectionCacheProperties">
-					<New class="java.util.Properties">
-						<Call name="setProperty">
-							<Arg>MinLimit</Arg>
-							<Arg>5</Arg>
-						</Call>
-						<!-- put the other properties in here too -->
-					</New>
-				</Set>
+			<New class="org.postgresql.ds.PGSimpleDataSource">
+				<Set name="User">mehdi</Set>
+				<Set name="Password">postgres</Set>
+				<Set name="DatabaseName">mydb</Set>
+				<Set name="ServerName">Mehdi-PC</Set>
+				<Set name="PortNumber">5432</Set>
 			</New>
+
 		</Arg>
 	</New>
 </Configure>

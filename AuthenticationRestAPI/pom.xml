@@ -117,7 +117,7 @@
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-spring</artifactId>
-			<version>1.17.1</version>
+			<version>1.19.1</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring-aop</artifactId>
@@ -167,33 +167,14 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty.maven.plugin.version}</version>
+				<version>9.2.11.v20150529</version>
 				<configuration>
-					<jettyXml>${project.basedir}/src/main/resources/config/jetty9.xml</jettyXml>
-					<!-- ,${project.basedir}/src/main/resources/config/jetty-ssl.xml, ${project.basedir}/src/main/resources/config/jetty-https.xml -->
-					<stopKey>STOP</stopKey>
-					<stopPort>9999</stopPort>
-					<stopWait>5</stopWait>
-					<scanIntervalSeconds>5</scanIntervalSeconds>
-					<scanTargets>
-						<scanTarget>${project.basedir}/src/main</scanTarget>
-						<scanTarget>${project.basedir}/src/test</scanTarget>
-					</scanTargets>
-					<contextXml>${project.basedir}/src/test/resources/jetty-context.xml</contextXml>
-
+					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<webAppConfig>
 						<contextPath>/</contextPath>
+						<descriptor>${project.basedir}/src/main/webapp/WEB_INF/web.xml</descriptor>
+						<jettyEnvXml>${project.basedir}/src/main/resources/config/jetty9.xml</jettyEnvXml>
 					</webAppConfig>
-					<systemProperties>
-						<systemProperty>
-							<name>CONF_LOCATION</name>
-							<value>${project.basedir}/src/main/resources/</value>
-						</systemProperty>
-						<systemProperty>
-							<name>logback.configurationFile</name>
-							<value>${project.basedir}/src/main/resources/logback.xml</value>
-						</systemProperty>
-					</systemProperties>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -214,10 +195,11 @@
 					<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc14</artifactId> 
 						<version>10.2.0.4.0</version> </dependency> -->
 					<dependency>
-						<groupId>com.oracle</groupId>
-						<artifactId>ojdbc6</artifactId>
-						<version>${ojdbc.version}</version>
+						<groupId>postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>9.1-901.jdbc4</version>
 					</dependency>
+
 					<dependency>
 						<groupId>org.hsqldb</groupId>
 						<artifactId>hsqldb</artifactId>
@@ -225,6 +207,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
